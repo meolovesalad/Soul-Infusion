@@ -5,10 +5,14 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController Instance { get; private set; }
+    
     private Rigidbody2D playerRD;
     private InputSystem_Actions inputActions;
     private Vector2 moveInput;
     private bool isDashing;
+
+    public InputSystem_Actions GetInputActions() => inputActions;
 
     [SerializeField] private float _moveSpeed = 5;
     [SerializeField] private float _dashSpeed = 20;
@@ -19,6 +23,14 @@ public class PlayerController : MonoBehaviour
     {
         playerRD = GetComponent<Rigidbody2D>();
         inputActions = new InputSystem_Actions();
+
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
     }
 
     private void OnEnable()
