@@ -1,24 +1,48 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerAbsorb : MonoBehaviour
 {
     private InputSystem_Actions playerAction;
-    private LayerMask itemLayer;
+
+    [SerializeField] private LayerMask itemLayer;
     [SerializeField] private float _absorbRange = 4f;
+    private bool isSubscribed = false; // Cờ kiểm tra tránh đăng ký trùng lặp
 
     private void Start()
     {
-        playerAction = PlayerController.Instance.GetInputActions();
+        // Đổi sang Start để chắc chắn PlayerController.Instance đã được gán ở Awake
+        TrySubscribeInput();
+    }
 
-        playerAction.Player.Attack.performed += OnAbsorbPerformed;
+    private void OnEnable()
+    {
+        // Dự phòng trường hợp Object bị Tắt/Bật (Disable/Enable) liên tục trong game
+        TrySubscribeInput();
+    }
+
+    private void TrySubscribeInput()
+    {
+        if (isSubscribed) return;
+
+        if (PlayerController.Instance != null)
+        {
+            playerAction = PlayerController.Instance.GetInputActions();
+            if (playerAction != null)
+            {
+                playerAction.Player.Absorb.performed += OnAbsorbPerformed;
+                isSubscribed = true;
+            }
+        }
     }
 
     private void OnDisable()
     {
-        if (playerAction != null)
+        // Hủy đăng ký an toàn dựa trên cờ kiểm tra
+        if (isSubscribed && playerAction != null)
         {
-            playerAction.Player.Attack.performed -= OnAbsorbPerformed;
+            playerAction.Player.Absorb.performed -= OnAbsorbPerformed;
+            isSubscribed = false;
         }
     }
 
@@ -27,10 +51,10 @@ public class PlayerAbsorb : MonoBehaviour
     private void PullItems()
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(
-           transform.position,
+            transform.position,
             _absorbRange,
-           itemLayer
-       );
+            itemLayer
+        );
 
         foreach (Collider2D hit in hits)
         {
@@ -44,7 +68,7 @@ public class PlayerAbsorb : MonoBehaviour
 
     void OnDrawGizmosSelected()
     {
+        Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, _absorbRange);
     }
-
 }

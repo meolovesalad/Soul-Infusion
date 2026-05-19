@@ -113,7 +113,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""name"": ""Attack"",
                     ""type"": ""Button"",
                     ""id"": ""6c2ab1b8-8984-453a-af3d-a3c78ae1679a"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -184,7 +184,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""Absorb"",
                     ""type"": ""Button"",
-                    ""id"": ""ae8ec441-bca5-4123-8b47-194dff3df8b3"",
+                    ""id"": ""87094a38-3ed3-4132-8ab3-a03b46e454d7"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -590,11 +590,11 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""cc6bacbc-2065-4a92-8b53-4b1d3eac95c6"",
-                    ""path"": """",
+                    ""id"": ""cf2f1a39-9305-43a5-a6b0-29126b29a21c"",
+                    ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""Absorb"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
