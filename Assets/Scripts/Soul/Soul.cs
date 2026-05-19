@@ -1,21 +1,40 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Soul : MonoBehaviour
 {
-    [SerializeField] private float soulSpeed;
+    /*
+        1. Tách trách nhiệm
+        Player:
+        chỉ tìm item
+        chỉ ra lệnh hút
+        Item:
+        tự xử lý movement
 
+        Code sạch hơn.
+    */
+
+    [SerializeField] private float soulSpeed;
+    private Transform target;
+
+    public void SetTarget(Transform player)
+    {
+        target = player;
+    }    
+
+    private void MoveToPlayer()
+    {
+        if (target != null)
+        {
+            transform.position = Vector2.MoveTowards(
+                transform.position, 
+                target.position, 
+                soulSpeed * Time.deltaTime);
+
+        }
+    }
     private void Update()
     {
         MoveToPlayer();
     }
 
-    private void MoveToPlayer()
-    {
-        // 1. Get the player's position (the actual target)
-        Vector2 targetPosition = PlayerController.Instance.transform.position;
-
-        // 2. Calculate the new position and assign it to the transform, 
-        // using Time.deltaTime to ensure smooth, frame-rate independent movement.
-        transform.position = Vector2.MoveTowards(transform.position, targetPosition, soulSpeed * Time.deltaTime);
-    }
 }
