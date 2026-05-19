@@ -8,7 +8,7 @@ public class Bullet : MonoBehaviour, IAttackable
     [SerializeField] protected float lifeTime = 2f;
 
     // damage KHÔNG còn SerializeField vì sẽ được set runtime từ Gun
-    protected float damage = 20f;
+    [SerializeField] protected float damage = 20f;
 
     protected float timer = 0f;
     protected Rigidbody2D rb;
