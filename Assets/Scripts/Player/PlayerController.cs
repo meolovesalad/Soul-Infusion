@@ -4,65 +4,31 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
-    public static PlayerController Instance { get; private set; }
-
     private Rigidbody2D playerRD;
-    private InputSystem_Actions inputActions;
-    private Vector2 moveInput;
-    private bool isDashing;
 
-    public InputSystem_Actions GetInputActions() => inputActions;
+    private bool isDashing;
 
     [SerializeField] private float _moveSpeed = 5f;
     [SerializeField] private float _dashSpeed = 20f;
     [SerializeField] private float _dashDuration = 0.2f;
 
+    private Vector2 MoveInput =>
+        PlayerInputReader.Instance.MoveValue;
+
     private void Awake()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
-
         playerRD = GetComponent<Rigidbody2D>();
-        // Khởi tạo Input Action ngay tại Awake
-        inputActions = new InputSystem_Actions();
     }
+
 
     private void OnEnable()
     {
-        if (inputActions != null)
-        {
-            inputActions.Enable();
-            inputActions.Player.Dash.performed += OnDashformed;
-        }
+        PlayerInputReader.Instance.OnDash += Dash;
     }
 
     private void OnDisable()
     {
-        if (inputActions != null)
-        {
-            inputActions.Player.Dash.performed -= OnDashformed;
-            inputActions.Disable(); // Nên Unsubscribe sự kiện TRƯỚC KHI Disable InputActions
-        }
-    }
-
-    private void OnDashformed(InputAction.CallbackContext ctx)
-    {
-        if (!isDashing)
-        {
-            StartCoroutine(PlayerDash());
-        }
-    }
-
-    void Update()
-    {
-        if (inputActions != null)
-        {
-            moveInput = inputActions.Player.Move.ReadValue<Vector2>();
-        }
+        PlayerInputReader.Instance.OnDash -= Dash;
     }
 
     private void FixedUpdate()
@@ -75,7 +41,15 @@ public class PlayerController : MonoBehaviour
 
     private void MoveAround()
     {
-        playerRD.linearVelocity = moveInput.normalized * _moveSpeed;
+        playerRD.linearVelocity = MoveInput.normalized * _moveSpeed;
+    }
+
+    private void Dash()
+    {
+        if (!isDashing)
+        {
+            StartCoroutine(PlayerDash());
+        }
     }
 
     private IEnumerator PlayerDash()
@@ -84,7 +58,10 @@ public class PlayerController : MonoBehaviour
 
         // Lưu lại hướng di chuyển hiện tại lúc bấm nút để Dash thẳng theo hướng đó, 
         // Tránh việc đổi hướng đột ngột giữa chừng khi đang trong thời gian Dash (0.2s)
-        Vector2 dashDirection = moveInput.normalized == Vector2.zero ? Vector2.right : moveInput.normalized;
+        Vector2 dashDirection =
+            MoveInput == Vector2.zero
+            ? Vector2.right
+            : MoveInput.normalized;
 
         playerRD.linearVelocity = dashDirection * _dashSpeed;
 

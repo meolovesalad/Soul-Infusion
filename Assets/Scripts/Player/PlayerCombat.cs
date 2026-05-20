@@ -4,31 +4,26 @@ using static BulletPoolManager;
 
 public class PlayerCombat : MonoBehaviour
 {
-    private InputSystem_Actions playerAction;
+    private PlayerInputReader PlayerInput;
     [SerializeField] private GameObject firePositon;
 
-    private void Start()
-    {
-        playerAction = PlayerController.Instance.GetInputActions();
 
-        playerAction.Player.Attack.performed += OnAttackPerformed;
+    private void OnEnable()
+    {
+        PlayerInputReader.Instance.OnAttack += CastSpell;
     }
 
     private void OnDisable()
     {
-        if (playerAction != null)
-        {
-            playerAction.Player.Attack.performed -= OnAttackPerformed;
-        }
+        PlayerInputReader.Instance.OnAttack -= CastSpell;
     }
 
-    private void OnAttackPerformed(InputAction.CallbackContext ctx)
+    private void CastSpell()
     {
-        Debug.Log("ATTACK");
         SpawnBullet(firePositon.transform, firePositon.transform.right, BulletPoolManager.Instance);
     }
 
-    protected void SpawnBullet(Transform tip, Vector2 direction, IPooling pool)
+    private void SpawnBullet(Transform tip, Vector2 direction, IPooling pool)
     {
         Bullet bullet = pool.GetBullet("normal bullet", tip.position, tip.rotation);
         if (bullet == null) return;

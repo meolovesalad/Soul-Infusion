@@ -3,50 +3,21 @@ using UnityEngine.InputSystem;
 
 public class PlayerAbsorb : MonoBehaviour
 {
-    private InputSystem_Actions playerAction;
-
     [SerializeField] private LayerMask itemLayer;
     [SerializeField] private float _absorbRange = 4f;
-    private bool isSubscribed = false; // Cờ kiểm tra tránh đăng ký trùng lặp
-
-    private void Start()
-    {
-        // Đổi sang Start để chắc chắn PlayerController.Instance đã được gán ở Awake
-        TrySubscribeInput();
-    }
 
     private void OnEnable()
     {
-        // Dự phòng trường hợp Object bị Tắt/Bật (Disable/Enable) liên tục trong game
-        TrySubscribeInput();
-    }
-
-    private void TrySubscribeInput()
-    {
-        if (isSubscribed) return;
-
-        if (PlayerController.Instance != null)
-        {
-            playerAction = PlayerController.Instance.GetInputActions();
-            if (playerAction != null)
-            {
-                playerAction.Player.Absorb.performed += OnAbsorbPerformed;
-                isSubscribed = true;
-            }
-        }
+        PlayerInputReader.Instance.OnAbsorb += OnAbsorbPerformed;
     }
 
     private void OnDisable()
     {
-        // Hủy đăng ký an toàn dựa trên cờ kiểm tra
-        if (isSubscribed && playerAction != null)
-        {
-            playerAction.Player.Absorb.performed -= OnAbsorbPerformed;
-            isSubscribed = false;
-        }
+        PlayerInputReader.Instance.OnAbsorb -= OnAbsorbPerformed;
     }
 
-    private void OnAbsorbPerformed(InputAction.CallbackContext ctx)
+
+    private void OnAbsorbPerformed()
     {
         PullItems();
     }
