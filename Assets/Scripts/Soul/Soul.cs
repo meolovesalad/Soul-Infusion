@@ -15,18 +15,18 @@ public class Soul : MonoBehaviour
 
     [SerializeField] private float soulSpeed;
     [SerializeField] private int soulPoint = 25;
-    private PlayerTransform playerTransform;
+    
     private Transform target;
-
-    private void Awake()
-    {
-        playerTransform = FindFirstObjectByType<PlayerTransform>();
-    }
 
     public void SetTarget(Transform player)
     {
         target = player;
-    }    
+    }
+
+    private void Update()
+    {
+        MoveToPlayer();
+    }
 
     private void MoveToPlayer()
     {
@@ -39,17 +39,19 @@ public class Soul : MonoBehaviour
 
         }
     }
-    private void Update()
-    {
-        MoveToPlayer();
-    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.transform == target)
+        if (collision.transform != target) return;
+
+        PlayerTransform playerTransform =
+            collision.GetComponent<PlayerTransform>();
+
+        if (playerTransform != null)
         {
-            playerTransform.CurrentPoint += soulPoint;
-            Destroy(gameObject);
+            playerTransform.AddPoint(soulPoint);
         }
+
+        Destroy(gameObject);
     }
 }

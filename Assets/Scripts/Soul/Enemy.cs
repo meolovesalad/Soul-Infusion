@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private int _soulDrop = 5;
+    [SerializeField] private int _soulDropAmount = 4;
     [SerializeField] private GameObject _soulPrefab;
     private HealthManager _healthManager;
 
@@ -22,7 +22,7 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
-        int randomSoul = Random.Range(0, _soulDrop);
+        int randomSoul = Random.Range(0, _soulDropAmount + 1);
 
         for (int i = 0; i < randomSoul; i++) 
         {

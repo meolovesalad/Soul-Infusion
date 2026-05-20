@@ -46,7 +46,10 @@ public class PlayerAbsorb : MonoBehaviour
         }
     }
 
-    private void OnAbsorbPerformed(InputAction.CallbackContext ctx) => PullItems();
+    private void OnAbsorbPerformed(InputAction.CallbackContext ctx)
+    {
+        PullItems();
+    }
 
     private void PullItems()
     {

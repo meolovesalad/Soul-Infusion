@@ -14,6 +14,8 @@ public class HealthManager : MonoBehaviour, IDamageable
     public event Action<float, float> OnHealthChange;
     public event Action OnDeath;
 
+    private bool isDead;
+
 
     private void Start()
     {
@@ -49,6 +51,9 @@ public class HealthManager : MonoBehaviour, IDamageable
 
     private void Die()
     {
+        if (isDead) return;
+
+        isDead = true;
         // Hoặc để OnDeath xử lý (ví dụ: chạy animation chết)
         OnDeath?.Invoke();
         Destroy(gameObject);

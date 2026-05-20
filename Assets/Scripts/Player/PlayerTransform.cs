@@ -3,22 +3,39 @@ using System;
 
 public class PlayerTransform : MonoBehaviour
 {
-    [SerializeField] private int _tranformPoint = 100;
-    [SerializeField] private SpriteRenderer _playerColer;
-    public int CurrentPoint { get; set; } = 0;
+    [SerializeField] private int _transformPoint = 100;
+    [SerializeField] private SpriteRenderer _playerRenderer;
+    public int CurrentPoint { get; private set; } = 0;
 
-  /*  public event Action OnTransform;
-    public event Action OnPointChange;*/
+    public event Action OnTransform;
+    public event Action<int> OnPointChanged;
 
-    private void Update()
+    private bool transformed = false;
+
+    public void AddPoint(int amount)
     {
-        AbyssForm();
+        CurrentPoint += amount;
+
+        OnPointChanged?.Invoke(CurrentPoint);
+
+        CheckTransform();
     }
-    private void AbyssForm()
+
+    private void CheckTransform()
     {
-        if (CurrentPoint >= _tranformPoint)
+        if (transformed) return;
+
+        if (CurrentPoint >= _transformPoint)
         {
-            _playerColer.color = Color.blue; 
+            transformed = true;
+
+            _playerRenderer.color = Color.blue;
+
+            OnTransform?.Invoke();
         }
     }
+
+
+
+
 }
