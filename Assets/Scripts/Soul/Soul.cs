@@ -14,7 +14,14 @@ public class Soul : MonoBehaviour
     */
 
     [SerializeField] private float soulSpeed;
+    [SerializeField] private int soulPoint = 25;
+    private PlayerTransform playerTransform;
     private Transform target;
+
+    private void Awake()
+    {
+        playerTransform = FindFirstObjectByType<PlayerTransform>();
+    }
 
     public void SetTarget(Transform player)
     {
@@ -37,4 +44,12 @@ public class Soul : MonoBehaviour
         MoveToPlayer();
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.transform == target)
+        {
+            playerTransform.CurrentPoint += soulPoint;
+            Destroy(gameObject);
+        }
+    }
 }
