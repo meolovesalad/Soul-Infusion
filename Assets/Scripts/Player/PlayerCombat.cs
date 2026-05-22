@@ -35,7 +35,7 @@ public class PlayerCombat : MonoBehaviour
 
     private void SpawnBullet(Transform tip, Vector2 direction, IPooling pool)
     {
-        Bullet bullet = pool.GetBullet("Enemy bullet", tip.position, tip.rotation);
+        Bullet bullet = pool.GetBullet("normal bullet", tip.position, tip.rotation);
         if (bullet == null) return;
 
         bullet.SetDamage(20);   // truyền damage runtime vào đạn
