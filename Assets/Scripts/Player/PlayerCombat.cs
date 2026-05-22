@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.InputSystem;
-using static BulletPoolManager;
 
 public class PlayerCombat : MonoBehaviour
 {
@@ -8,7 +6,7 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private GameObject firePositon;
 
 
-    private void OnEnable()
+    private void Start()
     {
         PlayerInputReader.Instance.OnAttack += CastSpell;
     }

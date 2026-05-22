@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerAbsorb : MonoBehaviour
 {
     [SerializeField] private LayerMask itemLayer;
     [SerializeField] private float _absorbRange = 4f;
 
-    private void OnEnable()
+    private void Start()
     {
         PlayerInputReader.Instance.OnAbsorb += OnAbsorbPerformed;
     }

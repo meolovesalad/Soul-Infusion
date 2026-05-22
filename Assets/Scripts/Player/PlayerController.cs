@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    private void OnEnable()
+    private void Start()
     {
         PlayerInputReader.Instance.OnDash += Dash;
     }
