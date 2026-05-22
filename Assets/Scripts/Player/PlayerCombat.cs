@@ -18,12 +18,24 @@ public class PlayerCombat : MonoBehaviour
 
     private void CastSpell()
     {
-        SpawnBullet(firePositon.transform, firePositon.transform.right, BulletPoolManager.Instance);
+        // lật bằng scale không thật sự đổi trục nên oahir làm vậy
+        Vector2 direction =
+        transform.localScale.x > 0
+        ? Vector2.right
+        : Vector2.left;
+
+        //Debug.Log(direction);
+
+        SpawnBullet(
+             firePositon.transform,
+             direction,
+             BulletPoolManager.Instance
+         );
     }
 
     private void SpawnBullet(Transform tip, Vector2 direction, IPooling pool)
     {
-        Bullet bullet = pool.GetBullet("normal bullet", tip.position, tip.rotation);
+        Bullet bullet = pool.GetBullet("Enemy bullet", tip.position, tip.rotation);
         if (bullet == null) return;
 
         bullet.SetDamage(20);   // truyền damage runtime vào đạn

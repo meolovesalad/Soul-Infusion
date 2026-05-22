@@ -34,8 +34,4 @@ public class PlayerTransform : MonoBehaviour
             OnTransform?.Invoke();
         }
     }
-
-
-
-
 }

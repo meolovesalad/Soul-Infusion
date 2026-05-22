@@ -5,6 +5,7 @@ using System.Collections;
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D playerRD;
+    private Vector3 originalScale;
 
     private bool isDashing;
 
@@ -18,6 +19,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         playerRD = GetComponent<Rigidbody2D>();
+        originalScale = playerRD.transform.localScale;
     }
 
 
@@ -37,6 +39,11 @@ public class PlayerController : MonoBehaviour
         {
             MoveAround();
         }
+    }
+
+    private void Update()
+    {
+        Flip();
     }
 
     private void MoveAround()
@@ -70,5 +77,18 @@ public class PlayerController : MonoBehaviour
         // Nhả vận tốc về lại 0 sau khi dash xong để không bị trôi lướt quá đà
         playerRD.linearVelocity = Vector2.zero;
         isDashing = false;
+    }
+
+    public void Flip()
+    {
+        if (MoveInput.x == 0) return;
+
+        transform.localScale = new Vector3(
+            MoveInput.x < 0
+                ? -Mathf.Abs(originalScale.x)
+                : Mathf.Abs(originalScale.x),
+            originalScale.y,
+            originalScale.z
+        );
     }
 }
