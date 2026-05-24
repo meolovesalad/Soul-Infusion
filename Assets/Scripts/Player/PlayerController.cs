@@ -4,13 +4,13 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private PlayerStats _playerStats;
+
     private Rigidbody2D playerRD;
     private Vector3 originalScale;
 
     private bool isDashing;
 
-    [SerializeField] private float _moveSpeed = 5f;
-    [SerializeField] private float _dashSpeed = 20f;
     [SerializeField] private float _dashDuration = 0.2f;
 
     private Vector2 MoveInput =>
@@ -48,7 +48,7 @@ public class PlayerController : MonoBehaviour
 
     private void MoveAround()
     {
-        playerRD.linearVelocity = MoveInput.normalized * _moveSpeed;
+        playerRD.linearVelocity = MoveInput.normalized * _playerStats.MoveSpeed;
     }
 
     private void Dash()
@@ -70,7 +70,7 @@ public class PlayerController : MonoBehaviour
             ? Vector2.right
             : MoveInput.normalized;
 
-        playerRD.linearVelocity = dashDirection * _dashSpeed;
+        playerRD.linearVelocity = dashDirection * _playerStats.DashSpeed;
 
         yield return new WaitForSeconds(_dashDuration);
 

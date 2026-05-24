@@ -2,6 +2,7 @@
 
 public class PlayerAbsorb : MonoBehaviour
 {
+    [SerializeField] private PlayerStats _playerStats;
     [SerializeField] private LayerMask itemLayer;
     [SerializeField] private float _absorbRange = 4f;
 
@@ -42,6 +43,6 @@ public class PlayerAbsorb : MonoBehaviour
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, _absorbRange);
+        Gizmos.DrawWireSphere(transform.position, _playerStats.AbsorbRange);
     }
 }

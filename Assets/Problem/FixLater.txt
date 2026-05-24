@@ -1,0 +1,5 @@
+P1: 
+" set Target of ranged enemy "
+current: - set target in ranged enemy, set target in EnemyCombat, and call the function in EnemyBrain.
+
+P2: ranged enemy have same code as player combat

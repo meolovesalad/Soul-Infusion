@@ -44,8 +44,8 @@ public class Soul : MonoBehaviour
     {
         if (collision.transform != target) return;
 
-        PlayerTransform playerTransform =
-            collision.GetComponent<PlayerTransform>();
+        PlayerSoul playerTransform =
+            collision.GetComponent<PlayerSoul>();
 
         if (playerTransform != null)
         {

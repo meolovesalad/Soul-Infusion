@@ -1,13 +1,13 @@
 using UnityEngine;
 using System;
 
-public class PlayerTransform : MonoBehaviour
+public class PlayerSoul : MonoBehaviour
 {
     [SerializeField] private int _transformPoint = 100;
-    [SerializeField] private SpriteRenderer _playerRenderer;
     public int CurrentPoint { get; private set; } = 0;
 
-    public event Action OnTransform;
+    public event Action OnEnterAbyss;
+    public event Action OnExitAbyss;
     public event Action<int> OnPointChanged;
 
     private bool transformed = false;
@@ -27,11 +27,23 @@ public class PlayerTransform : MonoBehaviour
 
         if (CurrentPoint >= _transformPoint)
         {
-            transformed = true;
-
-            _playerRenderer.color = Color.blue;
-
-            OnTransform?.Invoke();
+            EnterAbyss();
         }
+        else if (CurrentPoint < _transformPoint) 
+        {
+            ExitAbyss();
+        }
+    }
+
+    private void EnterAbyss()
+    {
+        transformed = true;
+        OnEnterAbyss?.Invoke();
+    }
+
+    private void ExitAbyss()
+    {
+        transformed = false;
+        OnExitAbyss?.Invoke();
     }
 }

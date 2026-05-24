@@ -3,8 +3,9 @@
 public class PlayerCombat : MonoBehaviour
 {
     private PlayerInputReader PlayerInput;
-    [SerializeField] private GameObject firePositon;
+    [SerializeField] private PlayerStats _playerStats;
 
+    [SerializeField] private GameObject firePositon;
 
     private void Start()
     {
@@ -38,7 +39,7 @@ public class PlayerCombat : MonoBehaviour
         Bullet bullet = pool.GetBullet("normal bullet", tip.position, tip.rotation);
         if (bullet == null) return;
 
-        bullet.SetDamage(20);   // truyền damage runtime vào đạn
+        bullet.SetDamage(_playerStats.ProjectileDamage);   // truyền damage runtime vào đạn
         bullet.Activate(direction);
     }
 }

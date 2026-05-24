@@ -22,7 +22,7 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
-        int randomSoul = Random.Range(0, _soulDropAmount + 1);
+        int randomSoul = Random.Range(1, _soulDropAmount + 1);
 
         for (int i = 0; i < randomSoul; i++) 
         {

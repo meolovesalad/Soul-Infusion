@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e1d23e1c2e41b74480aa7c4ac9f0ae9, type: 3}
+  m_Name: New Player Stats Data
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  dashSpeed: 20
+  dashCooldown: 1
+  castRate: 0.5
+  absorbRange: 3
+  projectileDamage: 20
