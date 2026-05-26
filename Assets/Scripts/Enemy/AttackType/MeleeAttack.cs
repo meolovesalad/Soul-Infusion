@@ -4,6 +4,6 @@ public class MeleeAttack : MonoBehaviour, IEnemyAttack
 {
     public void Attack()
     {
-        Debug.Log("Attack");
+        //Debug.Log("Attack");
     }
 }

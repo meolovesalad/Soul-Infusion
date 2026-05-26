@@ -2,46 +2,44 @@ using UnityEngine;
 
 public class PlayerTransformation : MonoBehaviour
 {
-    [SerializeField] private AbyssFormData _abyssData;
-
+    [SerializeField] private TransformVisualController _visual;
+    [SerializeField] private TransformStatHandler _stats;
+    [SerializeField] private TransformTimer _timer;
     [SerializeField] private PlayerSoul _playerSoul;
-    [SerializeField] private PlayerStats _playerStats;
-    [SerializeField] private SpriteRenderer _spriteRenderer;
 
-    private Color _abyssColor = Color.blue;
-    private Color _originColor;
-
-    private AbyssFormModifier _abyssModifier;
-
-    private void Awake()
-    {
-        _abyssModifier = new AbyssFormModifier(_abyssData);
-        _originColor = _spriteRenderer.color;
-    }
+    private int _stage;
 
     private void OnEnable()
     {
         _playerSoul.OnEnterAbyss += EnterAbyss;
-        _playerSoul.OnExitAbyss += ExitAbyss;
+        _timer.OnTimerEnd += ExitAbyss;
     }
 
     private void OnDisable()
     {
         _playerSoul.OnEnterAbyss -= EnterAbyss;
-        _playerSoul.OnExitAbyss -= ExitAbyss;
+        _timer.OnTimerEnd -= ExitAbyss;
     }
 
-    private void EnterAbyss()
+    public void EnterAbyss()
     {
-        _playerStats.AddModifier(_abyssModifier);
+        _stage = 1;
 
-        _spriteRenderer.color = _abyssColor;
+        _visual.EnterVisual();
+
+        _stats.ApplyStats(_stage);
+
+        _timer.StartTimer(10f);
     }
 
-    private void ExitAbyss()
+    public void ExitAbyss()
     {
-        _playerStats.RemoveModifier(_abyssModifier);
+        _visual.ExitVisual();
 
-        _spriteRenderer.color = _originColor;
+        _stats.RemoveStats();
+
+        _timer.StopTimer();
+
+        _playerSoul.ResetTransformation();
     }
 }

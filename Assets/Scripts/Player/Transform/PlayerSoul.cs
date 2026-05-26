@@ -7,10 +7,10 @@ public class PlayerSoul : MonoBehaviour
     public int CurrentPoint { get; private set; } = 0;
 
     public event Action OnEnterAbyss;
-    public event Action OnExitAbyss;
+    //public event Action OnExitAbyss;
     public event Action<int> OnPointChanged;
 
-    private bool transformed = false;
+    private bool _isTransformed = false;
 
     public void AddPoint(int amount)
     {
@@ -23,27 +23,24 @@ public class PlayerSoul : MonoBehaviour
 
     private void CheckTransform()
     {
-        if (transformed) return;
+        if (_isTransformed) return;
 
         if (CurrentPoint >= _transformPoint)
         {
             EnterAbyss();
         }
-        else if (CurrentPoint < _transformPoint) 
-        {
-            ExitAbyss();
-        }
     }
 
     private void EnterAbyss()
     {
-        transformed = true;
+        _isTransformed = true;
+        CurrentPoint = 0;
         OnEnterAbyss?.Invoke();
     }
 
-    private void ExitAbyss()
+
+    public void ResetTransformation()
     {
-        transformed = false;
-        OnExitAbyss?.Invoke();
+        _isTransformed = false;
     }
 }
